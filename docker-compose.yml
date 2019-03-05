@@ -1,0 +1,25 @@
+version: "3.2"
+
+services:
+  postgres9:
+    image: docker.utrl.de/postgres94postgis:1
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres9
+    links:
+      - postgres9 # connect to db with http://localhost:8080/?pgsql=postgres9&username=admin&db=demo&ns=public
+volumes:
+  data: {}
